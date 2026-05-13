@@ -103,7 +103,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Stats */}
       <section className="py-16 px-4 bg-background">
         <div className="container mx-auto max-w-4xl">
@@ -122,7 +121,6 @@ export default function Home() {
           ) : null}
         </div>
       </section>
-
       {/* Featured Cats */}
       <section className="py-16 px-4 bg-card/50">
         <div className="container mx-auto max-w-5xl">
@@ -148,15 +146,12 @@ export default function Home() {
           )}
         </div>
       </section>
-
       {/* CTA */}
       <section className="py-20 px-4 bg-primary text-primary-foreground">
         <div className="container mx-auto max-w-2xl text-center">
           <Heart className="w-12 h-12 mx-auto mb-6 opacity-80" />
           <h2 className="font-serif text-3xl font-bold mb-4">Ready to make a difference?</h2>
-          <p className="text-primary-foreground/80 mb-8">
-            Fostering a cat is one of the most rewarding things you can do. It doesn't have to be forever — just long enough for them to find their forever home.
-          </p>
+          <p className="text-primary-foreground/80 mb-8">Adopting a cat is one of the most rewarding things you can do. It doesn't have to be forever — just long enough for them to find their forever home.</p>
           <Link href="/cats">
             <Button
               data-testid="button-start-fostering"
