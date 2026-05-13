@@ -69,9 +69,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-96 h-48 rounded-full bg-primary/10 blur-3xl" />
         </div>
         <div className="container mx-auto max-w-3xl text-center relative z-10">
-          <span className="inline-block text-sm font-medium text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-6">
-            India's Cat Fostering Community
-          </span>
+          <span className="inline-block text-sm font-medium text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-6">India's Cat Adoption Community 🐱</span>
           <h1 className="font-serif text-5xl md:text-6xl font-bold text-foreground leading-tight mb-6">
             Every cat deserves a<br />
             <span className="text-primary">warm, loving home.</span>
