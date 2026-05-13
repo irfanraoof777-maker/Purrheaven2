@@ -124,7 +124,7 @@ export default function Home() {
           <div className="flex items-end justify-between mb-10">
             <div>
               <h2 className="font-serif text-3xl font-bold text-foreground">Featured Cats</h2>
-              <p className="text-muted-foreground mt-1">Meet some wonderful cats looking for a foster home</p>
+              <p className="text-muted-foreground mt-1">"Meet some wonderful cats looking for a forever home"</p>
             </div>
             <Link href="/cats">
               <Button variant="ghost" className="text-primary hover:text-primary/80" data-testid="link-view-all-cats">
