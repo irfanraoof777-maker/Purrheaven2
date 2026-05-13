@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { INDIAN_CITIES } from "@/lib/constants";
+import { Upload, ImageIcon, Loader2 } from "lucide-react";
 
 const TEMPERAMENTS = ["Playful", "Calm", "Shy", "Affectionate", "Curious", "Independent", "Energetic"];
 
@@ -52,6 +53,30 @@ export default function PostCat() {
   const createCat = useCreateCat();
   const [photo1Preview, setPhoto1Preview] = useState<string>("");
   const [photo2Preview, setPhoto2Preview] = useState<string>("");
+  const [photo1Uploading, setPhoto1Uploading] = useState(false);
+  const [photo2Uploading, setPhoto2Uploading] = useState(false);
+  const photo1Ref = useRef<HTMLInputElement>(null);
+  const photo2Ref = useRef<HTMLInputElement>(null);
+
+  const uploadPhoto = async (file: File, slot: 1 | 2) => {
+    const setUploading = slot === 1 ? setPhoto1Uploading : setPhoto2Uploading;
+    const setPreview = slot === 1 ? setPhoto1Preview : setPhoto2Preview;
+    const fieldName = slot === 1 ? "photo1" : "photo2";
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("photo", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd, credentials: "include" });
+      if (!res.ok) throw new Error("Upload failed");
+      const { url } = await res.json() as { url: string };
+      form.setValue(fieldName, url, { shouldValidate: true });
+      setPreview(URL.createObjectURL(file));
+    } catch {
+      toast({ title: "Photo upload failed", variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -356,71 +381,98 @@ export default function PostCat() {
                 )}
               />
 
-              {/* Photo 1 */}
-              <FormField
-                control={form.control}
-                name="photo1"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Photo 1 URL *</FormLabel>
-                    <FormControl>
-                      <Input
+              {/* Photos */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Photo 1 */}
+                <FormField
+                  control={form.control}
+                  name="photo1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Photo 1 *</FormLabel>
+                      <FormControl>
+                        <input type="hidden" {...field} />
+                      </FormControl>
+                      <input
+                        ref={photo1Ref}
                         data-testid="input-photo1"
-                        placeholder="https://..."
-                        {...field}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
                         onChange={(e) => {
-                          field.onChange(e);
-                          setPhoto1Preview(e.target.value);
+                          const file = e.target.files?.[0];
+                          if (file) uploadPhoto(file, 1);
                         }}
                       />
-                    </FormControl>
-                    {photo1Preview && (
-                      <div className="mt-2 aspect-video rounded-xl overflow-hidden bg-muted">
-                        <img
-                          src={photo1Preview}
-                          alt="Preview 1"
-                          className="w-full h-full object-cover"
-                          onError={() => setPhoto1Preview("")}
-                        />
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <button
+                        type="button"
+                        onClick={() => photo1Ref.current?.click()}
+                        className={`w-full aspect-video rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-colors cursor-pointer
+                          ${photo1Preview ? "border-transparent p-0 overflow-hidden" : "border-border/60 hover:border-primary/50 bg-muted/30"}`}
+                      >
+                        {photo1Uploading ? (
+                          <><Loader2 className="w-6 h-6 animate-spin text-primary" /><span className="text-xs text-muted-foreground">Uploading...</span></>
+                        ) : photo1Preview ? (
+                          <img src={photo1Preview} alt="Photo 1 preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <><Upload className="w-6 h-6 text-muted-foreground" /><span className="text-xs text-muted-foreground">Click to upload</span><ImageIcon className="w-4 h-4 text-muted-foreground/50" /></>
+                        )}
+                      </button>
+                      {photo1Preview && (
+                        <button type="button" onClick={() => photo1Ref.current?.click()} className="text-xs text-primary hover:underline mt-1">
+                          Change photo
+                        </button>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* Photo 2 */}
-              <FormField
-                control={form.control}
-                name="photo2"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Photo 2 URL *</FormLabel>
-                    <FormControl>
-                      <Input
+                {/* Photo 2 */}
+                <FormField
+                  control={form.control}
+                  name="photo2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Photo 2 *</FormLabel>
+                      <FormControl>
+                        <input type="hidden" {...field} />
+                      </FormControl>
+                      <input
+                        ref={photo2Ref}
                         data-testid="input-photo2"
-                        placeholder="https://..."
-                        {...field}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
                         onChange={(e) => {
-                          field.onChange(e);
-                          setPhoto2Preview(e.target.value);
+                          const file = e.target.files?.[0];
+                          if (file) uploadPhoto(file, 2);
                         }}
                       />
-                    </FormControl>
-                    {photo2Preview && (
-                      <div className="mt-2 aspect-video rounded-xl overflow-hidden bg-muted">
-                        <img
-                          src={photo2Preview}
-                          alt="Preview 2"
-                          className="w-full h-full object-cover"
-                          onError={() => setPhoto2Preview("")}
-                        />
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <button
+                        type="button"
+                        onClick={() => photo2Ref.current?.click()}
+                        className={`w-full aspect-video rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-colors cursor-pointer
+                          ${photo2Preview ? "border-transparent p-0 overflow-hidden" : "border-border/60 hover:border-primary/50 bg-muted/30"}`}
+                      >
+                        {photo2Uploading ? (
+                          <><Loader2 className="w-6 h-6 animate-spin text-primary" /><span className="text-xs text-muted-foreground">Uploading...</span></>
+                        ) : photo2Preview ? (
+                          <img src={photo2Preview} alt="Photo 2 preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <><Upload className="w-6 h-6 text-muted-foreground" /><span className="text-xs text-muted-foreground">Click to upload</span><ImageIcon className="w-4 h-4 text-muted-foreground/50" /></>
+                        )}
+                      </button>
+                      {photo2Preview && (
+                        <button type="button" onClick={() => photo2Ref.current?.click()} className="text-xs text-primary hover:underline mt-1">
+                          Change photo
+                        </button>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <Button
                 data-testid="button-submit-cat"

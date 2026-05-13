@@ -25,7 +25,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-serif text-2xl font-bold text-primary">PurrHeaven</span>
+          <span className="font-serif text-2xl font-bold text-primary">🐱 PurrHeaven</span>
         </Link>
         
         <nav className="hidden md:flex items-center gap-6">
@@ -60,7 +60,7 @@ export default function Navbar() {
           <Dialog>
             <DialogTrigger asChild>
               <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white font-medium shadow-md shadow-amber-500/20 rounded-full px-6">
-                Donate 💛
+                Donate 🐾
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md text-center">

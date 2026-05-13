@@ -72,12 +72,6 @@ export default function About() {
               temporary care — and how few platforms existed to connect them with willing fosters.
             </p>
             <p>
-              What started as a WhatsApp group of 15 Bangalore cat lovers has grown into a
-              platform serving thousands of fosters and cats across 15 Indian cities. We've
-              helped hundreds of cats find their forever homes through the warmth of short-term
-              fostering.
-            </p>
-            <p>
               We don't charge fosters. We don't take commissions. We are a labor of love,
               sustained by volunteers and small donations from people who believe cats deserve
               a warm place to sleep.

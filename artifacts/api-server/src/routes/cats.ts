@@ -111,6 +111,24 @@ router.delete("/cats/:id", async (req, res): Promise<void> => {
 });
 
 router.post(
+  "/upload",
+  upload.single("photo"),
+  async (req, res): Promise<void> => {
+    const userId = req.session.userId;
+    if (!userId) {
+      res.status(401).json({ error: "Not authenticated" });
+      return;
+    }
+    if (!req.file) {
+      res.status(400).json({ error: "No file uploaded" });
+      return;
+    }
+    const url = `/api/uploads/${req.file.filename}`;
+    res.json({ url });
+  },
+);
+
+router.post(
   "/cats/:id/upload",
   upload.single("photo"),
   async (req, res): Promise<void> => {
