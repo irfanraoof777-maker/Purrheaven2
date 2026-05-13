@@ -26,7 +26,7 @@ const values = [
     icon: Heart,
     title: "Every Cat Matters",
     description:
-      "We believe every cat deserves a safe, temporary home while waiting for their forever family. No cat should wait in a shelter when a kind foster is just a click away.",
+      "We believe every cat deserves a safe, permanent home. Whether you found a stray on the street or need to rehome your cat due to circumstances beyond your control, we make sure they find the right family — because no cat should ever have to face the streets alone.",
   },
   {
     icon: Users,
