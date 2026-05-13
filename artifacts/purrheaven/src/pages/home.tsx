@@ -151,16 +151,14 @@ export default function Home() {
         <div className="container mx-auto max-w-2xl text-center">
           <Heart className="w-12 h-12 mx-auto mb-6 opacity-80" />
           <h2 className="font-serif text-3xl font-bold mb-4">Ready to make a difference?</h2>
-          <p className="text-primary-foreground/80 mb-8">Adopting a cat is one of the most rewarding things you can do. It doesn't have to be forever — just long enough for them to find their forever home.</p>
+          <p className="text-primary-foreground/80 mb-8">Adopting a cat is one of the most rewarding things you can do. Give a cat the forever home they deserve and change both your lives.</p>
           <Link href="/cats">
             <Button
               data-testid="button-start-fostering"
               variant="secondary"
               size="lg"
               className="rounded-full px-8 text-base font-medium bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-            >
-              Start Fostering Today
-            </Button>
+            >Start Adopting Today</Button>
           </Link>
         </div>
       </section>
