@@ -11,6 +11,7 @@ export interface HealthStatus {
 export interface User {
   id: string;
   username: string;
+  isAdmin?: boolean;
 }
 
 export interface AuthInput {
@@ -78,6 +79,13 @@ export interface Comment {
 export interface CommentInput {
   /** @minLength 1 */
   text: string;
+}
+
+export interface AdminStats {
+  totalCats: number;
+  totalUsers: number;
+  totalComments: number;
+  totalDonatedRupees: number;
 }
 
 export interface UploadResult {

@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useGetMe, useLogout, getGetMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { LogOut, PlusCircle, User as UserIcon, Menu, X } from "lucide-react";
+import { LogOut, PlusCircle, User as UserIcon, Menu, X, ShieldCheck } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Navbar() {
@@ -52,6 +52,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {!isError && user ? (
             <>
+              {user.isAdmin && (
+                <Link href="/admin">
+                  <Button variant="ghost" size="sm" className="gap-2 text-primary">
+                    <ShieldCheck className="w-4 h-4" /> Admin
+                  </Button>
+                </Link>
+              )}
               <Link href="/post">
                 <Button variant="ghost" size="sm" className="gap-2">
                   <PlusCircle className="w-4 h-4" /> Post a Cat
@@ -127,6 +134,11 @@ export default function Navbar() {
           <div className="pt-2 border-t border-border/40 mt-2 space-y-1">
             {!isError && user ? (
               <>
+                {user.isAdmin && (
+                  <MobileLink href="/admin" onClick={() => setMobileOpen(false)}>
+                    <ShieldCheck className="w-4 h-4 text-primary" /> Admin Panel
+                  </MobileLink>
+                )}
                 <MobileLink href="/post" onClick={() => setMobileOpen(false)}>
                   <PlusCircle className="w-4 h-4" /> Post a Cat
                 </MobileLink>

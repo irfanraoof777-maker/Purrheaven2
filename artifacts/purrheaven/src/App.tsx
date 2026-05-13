@@ -14,6 +14,7 @@ import Login from "@/pages/login";
 import MyListings from "@/pages/my-listings";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import AdminPanel from "@/pages/admin";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/my-listings" component={MyListings} />
                 <Route path="/about" component={About} />
                 <Route path="/contact" component={Contact} />
+                <Route path="/admin" component={AdminPanel} />
                 <Route component={NotFound} />
               </Switch>
             </main>

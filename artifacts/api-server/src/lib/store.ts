@@ -4,6 +4,7 @@ export interface User {
   id: string;
   username: string;
   password: string;
+  isAdmin?: boolean;
 }
 
 export interface Cat {
@@ -41,8 +42,11 @@ export const users: User[] = [
     id: uuidv4(),
     username: "testuser",
     password: "cat123",
+    isAdmin: true,
   },
 ];
+
+export const donations: number[] = [5000, 2000, 10000, 1500, 3000, 500, 2500];
 
 export const cats: Cat[] = [
   {
@@ -228,6 +232,26 @@ export function createComment(data: Omit<Comment, "id" | "createdAt">): Comment 
 
 export function getReplies(parentId: string): Comment[] {
   return comments.filter((c) => c.parentId === parentId);
+}
+
+export function getAllComments(): Comment[] {
+  return comments;
+}
+
+export function deleteCommentById(id: string): boolean {
+  const idx = comments.findIndex((c) => c.id === id);
+  if (idx === -1) return false;
+  comments.splice(idx, 1);
+  return true;
+}
+
+export function getAdminStats() {
+  return {
+    totalCats: cats.length,
+    totalUsers: users.length,
+    totalComments: comments.length,
+    totalDonatedRupees: donations.reduce((a, b) => a + b, 0),
+  };
 }
 
 export function getStats() {

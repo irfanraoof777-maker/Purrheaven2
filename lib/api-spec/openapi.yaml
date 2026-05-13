@@ -246,6 +246,116 @@ paths:
         "403":
           description: Forbidden
 
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      summary: Admin — site overview stats
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+
+  /admin/cats:
+    get:
+      operationId: adminListCats
+      summary: Admin — list all cats
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cat"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+
+  /admin/cats/{id}:
+    delete:
+      operationId: adminDeleteCat
+      summary: Admin — delete any cat
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+
+  /admin/comments:
+    get:
+      operationId: adminListComments
+      summary: Admin — list all comments
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+
+  /admin/comments/{id}:
+    delete:
+      operationId: adminDeleteComment
+      summary: Admin — delete any comment
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+
+  /admin/users:
+    get:
+      operationId: adminListUsers
+      summary: Admin — list all users
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+
   /users/me/listings:
     get:
       operationId: getMyListings
@@ -279,6 +389,8 @@ components:
           type: string
         username:
           type: string
+        isAdmin:
+          type: boolean
 
     AuthInput:
       type: object
@@ -403,6 +515,19 @@ components:
         text:
           type: string
           minLength: 1
+
+    AdminStats:
+      type: object
+      required: [totalCats, totalUsers, totalComments, totalDonatedRupees]
+      properties:
+        totalCats:
+          type: integer
+        totalUsers:
+          type: integer
+        totalComments:
+          type: integer
+        totalDonatedRupees:
+          type: integer
 
     UploadResult:
       type: object

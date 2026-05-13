@@ -34,6 +34,7 @@ export const LoginBody = zod.object({
 export const LoginResponse = zod.object({
   id: zod.string(),
   username: zod.string(),
+  isAdmin: zod.boolean().optional(),
 });
 
 /**
@@ -42,6 +43,7 @@ export const LoginResponse = zod.object({
 export const GetMeResponse = zod.object({
   id: zod.string(),
   username: zod.string(),
+  isAdmin: zod.boolean().optional(),
 });
 
 /**
@@ -176,6 +178,81 @@ export const CreateReplyParams = zod.object({
 export const CreateReplyBody = zod.object({
   text: zod.string().min(1),
 });
+
+/**
+ * @summary Admin — site overview stats
+ */
+export const GetAdminStatsResponse = zod.object({
+  totalCats: zod.number(),
+  totalUsers: zod.number(),
+  totalComments: zod.number(),
+  totalDonatedRupees: zod.number(),
+});
+
+/**
+ * @summary Admin — list all cats
+ */
+export const AdminListCatsResponseItem = zod.object({
+  id: zod.string(),
+  name: zod.string(),
+  age: zod.number(),
+  ageUnit: zod.string(),
+  breed: zod.string().optional(),
+  color: zod.string().optional(),
+  temperament: zod.string().optional(),
+  goodWithKids: zod.boolean().optional(),
+  goodWithDogs: zod.boolean().optional(),
+  spayedNeutered: zod.boolean(),
+  healthNotes: zod.string(),
+  city: zod.string(),
+  postedBy: zod.string(),
+  postedByUsername: zod.string(),
+  photo1: zod.string(),
+  photo2: zod.string(),
+  createdAt: zod.string(),
+});
+export const AdminListCatsResponse = zod.array(AdminListCatsResponseItem);
+
+/**
+ * @summary Admin — delete any cat
+ */
+export const AdminDeleteCatParams = zod.object({
+  id: zod.coerce.string(),
+});
+
+/**
+ * @summary Admin — list all comments
+ */
+export const AdminListCommentsResponseItem = zod.object({
+  id: zod.string(),
+  catId: zod.string(),
+  userId: zod.string(),
+  username: zod.string(),
+  text: zod.string(),
+  createdAt: zod.string(),
+  parentId: zod.string().nullish(),
+  replies: zod.array(zod.unknown()).optional(),
+});
+export const AdminListCommentsResponse = zod.array(
+  AdminListCommentsResponseItem,
+);
+
+/**
+ * @summary Admin — delete any comment
+ */
+export const AdminDeleteCommentParams = zod.object({
+  id: zod.coerce.string(),
+});
+
+/**
+ * @summary Admin — list all users
+ */
+export const AdminListUsersResponseItem = zod.object({
+  id: zod.string(),
+  username: zod.string(),
+  isAdmin: zod.boolean().optional(),
+});
+export const AdminListUsersResponse = zod.array(AdminListUsersResponseItem);
 
 /**
  * @summary Get current user's cat listings
