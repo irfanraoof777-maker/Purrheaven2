@@ -76,10 +76,7 @@ export default function Home() {
             Every cat deserves a<br />
             <span className="text-primary">warm, loving home.</span>
           </h1>
-          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-            PurrHeaven connects cats in need of temporary shelter with kind-hearted fosters across India. 
-            Open your home, change a life.
-          </p>
+          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">"PurrHeaven connects cats in need with loving families across India. Open your heart, change a life." 🐱</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/cats">
               <Button
