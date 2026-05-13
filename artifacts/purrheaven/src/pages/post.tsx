@@ -40,8 +40,8 @@ const schema = z.object({
   spayedNeutered: z.boolean(),
   healthNotes: z.string().min(1, "Please describe the cat's health"),
   city: z.string().min(1, "City is required"),
-  photo1: z.string().url("Please enter a valid image URL").min(1),
-  photo2: z.string().url("Please enter a valid image URL").min(1),
+  photo1: z.string().min(1, "Please upload a photo"),
+  photo2: z.string().min(1, "Please upload a photo"),
 });
 type FormValues = z.infer<typeof schema>;
 
