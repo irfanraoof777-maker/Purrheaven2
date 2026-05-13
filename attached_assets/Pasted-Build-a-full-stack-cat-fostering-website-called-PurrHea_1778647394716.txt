@@ -1,0 +1,90 @@
+Build a full-stack cat fostering website called "PurrHeaven" with the following features and tech stack.
+Tech Stack:
+
+Frontend: HTML, CSS, JavaScript
+Backend: Node.js + Express
+Database: Use in-memory storage / local JSON arrays for now — database integration (MongoDB or Supabase) will be added later
+Auth: Simple session-based login using express-session (no OAuth needed yet)
+Payments: Skip entirely for now — placeholder donate button only
+Run everything from a single server.js file with express serving static files and API routes
+
+Project structure to create:
+purrheaven/
+├── server.js
+├── package.json
+├── public/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+Pages to build (all as a single-page app or multi-page — your choice):
+
+Home — Hero section with tagline, featured cat listings, and site stats (cats listed, cities covered, happy fosters)
+Browse Cats — Grid of all cat listings with filter dropdown by Indian city
+Post a Cat — Protected (login required). Form to submit a cat for fostering
+Cat Detail Page — Full listing view with both photos, all details, and comment section
+About Us — Non-profit mission, story, and team section
+Contact — Simple contact form (no backend needed, just UI)
+Login / Signup — Two separate forms on one page with toggle
+My Listings — Shows the logged-in user's posted cats with option to delete
+
+Cat Listing form fields (all required):
+
+Photo 1 upload (show browser preview before submit)
+Photo 2 upload (show browser preview before submit)
+Cat name
+Cat age (number + dropdown: months / years)
+Spayed or neutered? (Yes / No radio buttons)
+Any infections or allergies (textarea)
+Location (dropdown of Indian cities: Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Pune, Kolkata, Ahmedabad, Jaipur, Surat, Lucknow, Kochi, Chandigarh, Bhopal, Nagpur)
+Posted by: auto-filled from session, not editable
+
+Cat Detail Page — Comment Section:
+
+Any logged-in user can post a comment
+The cat's original poster can reply to any comment (one level of nesting)
+Show commenter username + date/time
+Comments and replies stored in memory per listing
+Non-logged-in users see comments but see "Login to comment" prompt
+
+Browse Page — Filter:
+
+Dropdown to filter by Indian city
+"All Cities" default option shows everything
+Filter happens instantly without page reload
+Show count of results e.g. "12 cats in Bangalore"
+
+Donate Button:
+
+Fixed in navbar, gold/amber color, always visible
+On click: show a centered modal overlay with message: "💛 Payment gateway coming soon! Thank you for your generosity — every rupee helps a cat find a home. 🐾"
+Modal has a close button
+
+Seed data:
+
+Pre-load 6 sample cats in memory with fake data and placeholder image URLs (use https://placekitten.com/ images) so the site looks populated from the start
+Pre-create one test user: username: testuser password: cat123
+
+Design:
+
+Warm earthy palette: cream (#FDF6EE), peach (#E8A87C), rust (#C4622D), deep brown (#2C1810)
+Headings: Google Font "Playfair Display" (serif, elegant)
+Body: Google Font "DM Sans" (clean, readable)
+Card-based cat listings with rounded corners, soft shadows, hover lift effect
+Paw print emoji (🐾) used as decorative accents throughout
+Fully responsive — mobile and desktop
+Smooth CSS transitions and hover states
+Navbar: dark brown background, logo left, links center, Donate button right
+Footer with mission statement and social links
+
+Important instructions for Replit:
+
+Use npm init -y and install: express, express-session, multer (for image uploads), uuid
+Images uploaded by users should be saved to a /public/uploads/ folder using multer
+The app must start with node server.js and run on process.env.PORT || 3000
+Add a start script in package.json: "start": "node server.js"
+Do NOT use any database — all users, listings, and comments live in memory arrays in server.js
+Do NOT set up any payment gateway — Razorpay/Stripe will be added in a future version
+Make the site feel complete and production-ready, not like a prototype
+After building, show me the file structure and how to run it
+
+Build it fully. Start with server.js and package.json, then public/style.css, then public/index.html, then public/app.js.

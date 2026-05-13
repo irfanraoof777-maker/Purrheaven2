@@ -1,36 +1,392 @@
-openapi: 3.1.0
+openapi: "3.1.0"
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
-  version: 0.1.0
-  description: API specification
+  version: "1.0.0"
+
 servers:
   - url: /api
-    description: Base API path
-tags:
-  - name: health
-    description: Health operations
+
 paths:
   /healthz:
     get:
-      operationId: healthCheck
-      tags: [health]
+      operationId: getHealth
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
-          description: Healthy
+          description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/signup:
+    post:
+      operationId: signup
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "409":
+          description: Username taken
+
+  /auth/login:
+    post:
+      operationId: login
+      summary: Log in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Invalid credentials
+
+  /auth/logout:
+    post:
+      operationId: logout
+      summary: Log out
+      responses:
+        "204":
+          description: Logged out
+
+  /auth/me:
+    get:
+      operationId: getMe
+      summary: Get current user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Not authenticated
+
+  /stats:
+    get:
+      operationId: getStats
+      summary: Get site statistics
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteStats"
+
+  /cats:
+    get:
+      operationId: listCats
+      summary: List all cats with optional city filter
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cat"
+    post:
+      operationId: createCat
+      summary: Post a cat for fostering (auth required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CatInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cat"
+        "401":
+          description: Not authenticated
+
+  /cats/{id}:
+    get:
+      operationId: getCat
+      summary: Get a cat by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cat"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteCat
+      summary: Delete a cat listing (owner only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+        "404":
+          description: Not found
+
+  /cats/{id}/comments:
+    get:
+      operationId: listComments
+      summary: List comments for a cat
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+    post:
+      operationId: createComment
+      summary: Add a comment (auth required)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "401":
+          description: Not authenticated
+
+  /cats/{id}/comments/{commentId}/replies:
+    post:
+      operationId: createReply
+      summary: Reply to a comment (cat owner only)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "401":
+          description: Not authenticated
+        "403":
+          description: Forbidden
+
+  /users/me/listings:
+    get:
+      operationId: getMyListings
+      summary: Get current user's cat listings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cat"
+        "401":
+          description: Not authenticated
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    User:
+      type: object
+      required: [id, username]
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+
+    AuthInput:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+
+    SiteStats:
+      type: object
+      required: [totalCats, citiesCovered, happyFosters]
+      properties:
+        totalCats:
+          type: integer
+        citiesCovered:
+          type: integer
+        happyFosters:
+          type: integer
+
+    Cat:
+      type: object
+      required: [id, name, age, ageUnit, spayedNeutered, healthNotes, city, postedBy, postedByUsername, photo1, photo2, createdAt]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        ageUnit:
+          type: string
+        spayedNeutered:
+          type: boolean
+        healthNotes:
+          type: string
+        city:
+          type: string
+        postedBy:
+          type: string
+        postedByUsername:
+          type: string
+        photo1:
+          type: string
+        photo2:
+          type: string
+        createdAt:
+          type: string
+
+    CatInput:
+      type: object
+      required: [name, age, ageUnit, spayedNeutered, healthNotes, city, photo1, photo2]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        age:
+          type: integer
+        ageUnit:
+          type: string
+        spayedNeutered:
+          type: boolean
+        healthNotes:
+          type: string
+        city:
+          type: string
+        photo1:
+          type: string
+        photo2:
+          type: string
+
+    Comment:
+      type: object
+      required: [id, catId, userId, username, text, createdAt]
+      properties:
+        id:
+          type: string
+        catId:
+          type: string
+        userId:
+          type: string
+        username:
+          type: string
+        text:
+          type: string
+        createdAt:
+          type: string
+        parentId:
+          type: ["string", "null"]
+        replies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Comment"
+
+    CommentInput:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+          minLength: 1
+
+    UploadResult:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "PurrHeaven"
+version = "1.0.0"
+id = "artifacts/purrheaven"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24463
+
+[services.development]
+run = "pnpm --filter @workspace/purrheaven run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/purrheaven", "run", "build" ]
+publicDir = "artifacts/purrheaven/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24463"
+BASE_PATH = "/"
