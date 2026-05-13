@@ -31,6 +31,11 @@ export interface Cat {
   name: string;
   age: number;
   ageUnit: string;
+  breed?: string;
+  color?: string;
+  temperament?: string;
+  goodWithKids?: boolean;
+  goodWithDogs?: boolean;
   spayedNeutered: boolean;
   healthNotes: string;
   city: string;
@@ -46,6 +51,11 @@ export interface CatInput {
   name: string;
   age: number;
   ageUnit: string;
+  breed?: string;
+  color?: string;
+  temperament?: string;
+  goodWithKids?: boolean;
+  goodWithDogs?: boolean;
   spayedNeutered: boolean;
   healthNotes: string;
   city: string;

@@ -25,10 +25,17 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { INDIAN_CITIES } from "@/lib/constants";
 
+const TEMPERAMENTS = ["Playful", "Calm", "Shy", "Affectionate", "Curious", "Independent", "Energetic"];
+
 const schema = z.object({
   name: z.string().min(1, "Cat name is required"),
   age: z.coerce.number().min(1, "Age must be at least 1"),
   ageUnit: z.string().min(1),
+  breed: z.string().optional(),
+  color: z.string().optional(),
+  temperament: z.string().optional(),
+  goodWithKids: z.boolean().optional(),
+  goodWithDogs: z.boolean().optional(),
   spayedNeutered: z.boolean(),
   healthNotes: z.string().min(1, "Please describe the cat's health"),
   city: z.string().min(1, "City is required"),
@@ -52,6 +59,11 @@ export default function PostCat() {
       name: "",
       age: 1,
       ageUnit: "months",
+      breed: "",
+      color: "",
+      temperament: "",
+      goodWithKids: undefined,
+      goodWithDogs: undefined,
       spayedNeutered: false,
       healthNotes: "",
       city: "",
@@ -155,6 +167,116 @@ export default function PostCat() {
                         </SelectContent>
                       </Select>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Breed & Color */}
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="breed"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Breed</FormLabel>
+                      <FormControl>
+                        <Input data-testid="input-breed" placeholder="e.g. Tabby, Persian" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Colour</FormLabel>
+                      <FormControl>
+                        <Input data-testid="input-color" placeholder="e.g. Orange & White" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Temperament */}
+              <FormField
+                control={form.control}
+                name="temperament"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Temperament</FormLabel>
+                    <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger data-testid="select-temperament">
+                          <SelectValue placeholder="Select temperament" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {TEMPERAMENTS.map((t) => (
+                          <SelectItem key={t} value={t}>{t}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Good with kids / dogs */}
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="goodWithKids"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Good with kids?</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          data-testid="radio-good-with-kids"
+                          value={field.value === true ? "yes" : field.value === false ? "no" : ""}
+                          onValueChange={(v) => field.onChange(v === "yes" ? true : v === "no" ? false : undefined)}
+                          className="flex gap-4 mt-1"
+                        >
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem value="yes" id="kids-yes" />
+                            <Label htmlFor="kids-yes">Yes</Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem value="no" id="kids-no" />
+                            <Label htmlFor="kids-no">No</Label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="goodWithDogs"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Good with dogs?</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          data-testid="radio-good-with-dogs"
+                          value={field.value === true ? "yes" : field.value === false ? "no" : ""}
+                          onValueChange={(v) => field.onChange(v === "yes" ? true : v === "no" ? false : undefined)}
+                          className="flex gap-4 mt-1"
+                        >
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem value="yes" id="dogs-yes" />
+                            <Label htmlFor="dogs-yes">Yes</Label>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <RadioGroupItem value="no" id="dogs-no" />
+                            <Label htmlFor="dogs-no">No</Label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
                     </FormItem>
                   )}
                 />

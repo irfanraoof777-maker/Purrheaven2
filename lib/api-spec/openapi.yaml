@@ -314,6 +314,16 @@ components:
           type: integer
         ageUnit:
           type: string
+        breed:
+          type: string
+        color:
+          type: string
+        temperament:
+          type: string
+        goodWithKids:
+          type: boolean
+        goodWithDogs:
+          type: boolean
         spayedNeutered:
           type: boolean
         healthNotes:
@@ -342,6 +352,16 @@ components:
           type: integer
         ageUnit:
           type: string
+        breed:
+          type: string
+        color:
+          type: string
+        temperament:
+          type: string
+        goodWithKids:
+          type: boolean
+        goodWithDogs:
+          type: boolean
         spayedNeutered:
           type: boolean
         healthNotes:

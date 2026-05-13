@@ -11,6 +11,11 @@ export interface Cat {
   name: string;
   age: number;
   ageUnit: string;
+  breed?: string;
+  color?: string;
+  temperament?: string;
+  goodWithKids?: boolean;
+  goodWithDogs?: boolean;
   spayedNeutered: boolean;
   healthNotes: string;
   city: string;
@@ -45,6 +50,11 @@ export const cats: Cat[] = [
     name: "Mochi",
     age: 8,
     ageUnit: "months",
+    breed: "Domestic Shorthair",
+    color: "Orange & White",
+    temperament: "Playful",
+    goodWithKids: true,
+    goodWithDogs: false,
     spayedNeutered: true,
     healthNotes: "Healthy and playful, no known allergies.",
     city: "Bangalore",
@@ -59,6 +69,11 @@ export const cats: Cat[] = [
     name: "Simba",
     age: 2,
     ageUnit: "years",
+    breed: "Persian Mix",
+    color: "Golden",
+    temperament: "Calm",
+    goodWithKids: true,
+    goodWithDogs: true,
     spayedNeutered: false,
     healthNotes: "Mild dust allergy, otherwise perfectly fine.",
     city: "Mumbai",
@@ -73,6 +88,11 @@ export const cats: Cat[] = [
     name: "Luna",
     age: 5,
     ageUnit: "months",
+    breed: "Domestic Longhair",
+    color: "Grey & White",
+    temperament: "Shy",
+    goodWithKids: false,
+    goodWithDogs: false,
     spayedNeutered: true,
     healthNotes: "No infections or allergies. Loves cuddles.",
     city: "Delhi",
@@ -87,6 +107,11 @@ export const cats: Cat[] = [
     name: "Biscuit",
     age: 1,
     ageUnit: "years",
+    breed: "Tabby",
+    color: "Brown Tabby",
+    temperament: "Affectionate",
+    goodWithKids: true,
+    goodWithDogs: true,
     spayedNeutered: true,
     healthNotes: "Recovered from mild ear infection. All clear now.",
     city: "Chennai",
@@ -101,6 +126,11 @@ export const cats: Cat[] = [
     name: "Oreo",
     age: 3,
     ageUnit: "months",
+    breed: "Domestic Shorthair",
+    color: "Black & White",
+    temperament: "Curious",
+    goodWithKids: true,
+    goodWithDogs: false,
     spayedNeutered: false,
     healthNotes: "Tiny and sweet, no health issues.",
     city: "Hyderabad",
@@ -115,6 +145,11 @@ export const cats: Cat[] = [
     name: "Noodle",
     age: 4,
     ageUnit: "years",
+    breed: "Siamese Mix",
+    color: "Cream & Brown",
+    temperament: "Calm",
+    goodWithKids: true,
+    goodWithDogs: true,
     spayedNeutered: true,
     healthNotes: "Senior cat, calm and gentle. No allergies.",
     city: "Pune",

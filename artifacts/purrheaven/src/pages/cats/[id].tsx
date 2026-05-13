@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Calendar, Check, Trash2, ChevronLeft, MessageCircle, Reply } from "lucide-react";
+import { MapPin, Calendar, Check, X, Trash2, ChevronLeft, MessageCircle, Reply, Cat, Palette, Heart, Baby, PawPrint } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
@@ -172,14 +172,36 @@ export default function CatDetail() {
   const isOwner = me?.id === cat.postedBy;
 
   return (
-    <div className="py-12 px-4">
-      <div className="container mx-auto max-w-4xl">
+    <div className="py-12 px-4 pb-24 md:pb-12">
+      {/* Sticky mobile back button */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background/95 backdrop-blur border-t border-border/60 px-4 py-3">
         <button
           onClick={() => setLocation("/cats")}
-          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          className="flex items-center gap-1.5 text-sm font-medium text-primary"
         >
           <ChevronLeft className="w-4 h-4" /> Back to Browse
         </button>
+      </div>
+
+      <div className="container mx-auto max-w-4xl">
+        {/* Desktop back link */}
+        <button
+          onClick={() => setLocation("/cats")}
+          className="hidden md:flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+        >
+          <ChevronLeft className="w-4 h-4" /> Back to Browse
+        </button>
+        {/* Mobile breadcrumb */}
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-6 md:hidden">
+          <span
+            onClick={() => setLocation("/cats")}
+            className="cursor-pointer hover:text-foreground transition-colors"
+          >
+            Browse
+          </span>
+          <ChevronLeft className="w-3 h-3 rotate-180" />
+          <span className="text-foreground font-medium truncate">{cat.name}</span>
+        </div>
 
         {/* Photos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -197,8 +219,14 @@ export default function CatDetail() {
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="font-serif text-4xl font-bold text-foreground mb-1">{cat.name}</h1>
-                <div className="flex items-center gap-3 text-muted-foreground text-sm">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground text-sm">
                   <span>{cat.age} {cat.ageUnit} old</span>
+                  {cat.breed && (
+                    <>
+                      <span>&middot;</span>
+                      <span>{cat.breed}</span>
+                    </>
+                  )}
                   <span>&middot;</span>
                   <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{cat.city}</span>
                 </div>
@@ -217,14 +245,97 @@ export default function CatDetail() {
               )}
             </div>
 
+            {/* Quick trait badges */}
+            <div className="flex flex-wrap gap-2">
+              {cat.temperament && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                  <Heart className="w-3 h-3" /> {cat.temperament}
+                </span>
+              )}
+              {cat.color && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-secondary/30 text-secondary-foreground border border-border/60">
+                  <Palette className="w-3 h-3" /> {cat.color}
+                </span>
+              )}
+              {cat.goodWithKids !== undefined && (
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${cat.goodWithKids ? "bg-green-50 text-green-700 border-green-200" : "bg-muted text-muted-foreground border-border/60"}`}>
+                  <Baby className="w-3 h-3" /> {cat.goodWithKids ? "Good with kids" : "Prefers no kids"}
+                </span>
+              )}
+              {cat.goodWithDogs !== undefined && (
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${cat.goodWithDogs ? "bg-green-50 text-green-700 border-green-200" : "bg-muted text-muted-foreground border-border/60"}`}>
+                  <PawPrint className="w-3 h-3" /> {cat.goodWithDogs ? "Good with dogs" : "Prefers no dogs"}
+                </span>
+              )}
+            </div>
+
             <div className="space-y-3 p-5 bg-card rounded-2xl border border-border/60">
+              {/* Breed & Color row */}
+              {(cat.breed || cat.color) && (
+                <>
+                  <div className="grid grid-cols-2 gap-4">
+                    {cat.breed && (
+                      <div className="flex items-center gap-2">
+                        <Cat className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Breed</p>
+                          <p className="text-sm font-medium">{cat.breed}</p>
+                        </div>
+                      </div>
+                    )}
+                    {cat.color && (
+                      <div className="flex items-center gap-2">
+                        <Palette className="w-4 h-4 text-muted-foreground shrink-0" />
+                        <div>
+                          <p className="text-xs text-muted-foreground">Colour</p>
+                          <p className="text-sm font-medium">{cat.color}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <Separator />
+                </>
+              )}
+
+              {/* Spayed/Neutered */}
               <div className="flex items-center gap-3">
-                <Check className="w-4 h-4 text-primary shrink-0" />
+                {cat.spayedNeutered
+                  ? <Check className="w-4 h-4 text-green-600 shrink-0" />
+                  : <X className="w-4 h-4 text-muted-foreground shrink-0" />
+                }
                 <span className="text-sm">
                   <span className="font-medium">Spayed / Neutered:</span>{" "}
                   {cat.spayedNeutered ? "Yes" : "No"}
                 </span>
               </div>
+
+              {/* Good with */}
+              {(cat.goodWithKids !== undefined || cat.goodWithDogs !== undefined) && (
+                <>
+                  <Separator />
+                  <div className="grid grid-cols-2 gap-3">
+                    {cat.goodWithKids !== undefined && (
+                      <div className="flex items-center gap-2">
+                        {cat.goodWithKids
+                          ? <Check className="w-4 h-4 text-green-600 shrink-0" />
+                          : <X className="w-4 h-4 text-muted-foreground shrink-0" />
+                        }
+                        <span className="text-sm">Good with kids</span>
+                      </div>
+                    )}
+                    {cat.goodWithDogs !== undefined && (
+                      <div className="flex items-center gap-2">
+                        {cat.goodWithDogs
+                          ? <Check className="w-4 h-4 text-green-600 shrink-0" />
+                          : <X className="w-4 h-4 text-muted-foreground shrink-0" />
+                        }
+                        <span className="text-sm">Good with dogs</span>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
               <Separator />
               <div>
                 <p className="text-sm font-medium text-foreground mb-1">Health Notes</p>
