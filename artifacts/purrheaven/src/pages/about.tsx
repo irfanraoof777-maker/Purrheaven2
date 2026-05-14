@@ -81,9 +81,9 @@ export default function About() {
               loving families across India.
             </p>
             <p>
-              We don't charge fosters. We don't take commissions. We are a labor of love,
-              sustained by volunteers and small donations from people who believe cats deserve
-              a warm place to sleep.
+              We don't charge adoption fees. We don't take commissions. PurrHeaven is a labor
+              of love, built by volunteers and supported by small donations from people who
+              believe no cat should ever face the streets alone.
             </p>
           </div>
         </section>
