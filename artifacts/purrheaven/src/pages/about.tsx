@@ -2,7 +2,7 @@ import { Heart, Users, MapPin } from "lucide-react";
 
 const team = [
   {
-    name: "Priya Nair",
+    name: "Mohammed Irfan Raoof",
     role: "Founder & Cat Lover",
     bio: "Started PurrHeaven after fostering her first street cat in 2019. She's fostered 30+ cats since.",
     initials: "PN",
