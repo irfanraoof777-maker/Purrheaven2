@@ -66,10 +66,19 @@ export default function About() {
           <h2 className="font-serif text-3xl font-bold text-foreground mb-4">Our Story</h2>
           <div className="prose prose-sm text-muted-foreground max-w-none space-y-4">
             <p>
-              PurrHeaven began in 2019 when our founder Priya found a tiny, malnourished kitten
-              under her car in Bangalore. After nursing it back to health and eventually finding
-              it a forever home, she realized how many more cats needed exactly this kind of
-              temporary care — and how few platforms existed to connect them with willing fosters.
+              PurrHeaven began in 2024 when our founder Mohammed Irfan Raoof spotted a tiny kitten
+              trapped inside a moving car on a stormy, rain-soaked day in Hyderabad. Without
+              hesitation, he stopped the car and rescued the frightened little one from danger.
+            </p>
+            <p>
+              That kitten never left. She found her forever home right then and there — and today
+              she is Irfan's beloved pet and the heart behind PurrHeaven.
+            </p>
+            <p>
+              That one rescue sparked a bigger question — how many more cats out there needed the
+              same chance? A warm home, a kind heart, and someone to never let them go. That's how
+              PurrHeaven was born. A platform dedicated to connecting stray and rescued cats with
+              loving families across India.
             </p>
             <p>
               We don't charge fosters. We don't take commissions. We are a labor of love,

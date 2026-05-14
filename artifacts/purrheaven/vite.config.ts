@@ -3,14 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-// Provide safe defaults so Vercel doesn't crash during build
-const rawPort = process.env.PORT || "5173";
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
+const port = Number(process.env.PORT) || 3000;
 const basePath = process.env.BASE_PATH || "/";
 
 export default defineConfig({
